@@ -14,42 +14,14 @@
 	http://www.springframework.org/schema/mvc 
 	http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
+    <context:property-placeholder location="classpath:config/property/*.properties" />
+
     <aop:aspectj-autoproxy proxy-target-class="true"/>
 
-	<context:component-scan base-package="com.gowild" />
+	<context:component-scan base-package="com" />
 	
 	<task:annotation-driven />
 	
 	<mvc:annotation-driven />
-
-    <!-- 使用disconf必须添加以下配置 -->
-    <bean id="disconfMgrBean" class="com.baidu.disconf.client.DisconfMgrBean"
-          destroy-method="destroy">
-        <property name="scanPackage" value="com.gowild.xxb.controller"/>
-    </bean>
-    <bean id="disconfMgrBean2" class="com.baidu.disconf.client.DisconfMgrBeanSecond"
-          init-method="init" destroy-method="destroy">
-    </bean>
-
-    <!-- 使用托管方式的disconf配置(无代码侵入, 配置更改会自动reload)-->
-    <bean id="configproperties_disconf"
-          class="com.baidu.disconf.client.addons.properties.ReloadablePropertiesFactoryBean">
-        <property name="locations">
-            <list>
-                <value>classpath:/database.properties</value>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="propertyConfigurer"
-          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="ignoreResourceNotFound" value="true"/>
-        <property name="ignoreUnresolvablePlaceholders" value="true"/>
-        <property name="propertiesArray">
-            <list>
-                <ref bean="configproperties_disconf"/>
-            </list>
-        </property>
-    </bean>
 
 </beans>
